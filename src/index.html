@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+    <style>
+      form * {
+        margin-bottom: 1rem;
+      }
+      my-checkbox:disabled {
+        display: block;
+        padding: 1rem 0;
+        border: 1px dashed red;
+      }
+
+      input:invalid {
+        background: red;
+      }
+      my-checkbox:required, my-checkbox[required] {
+        display: block;
+        padding: 1rem 0;
+        border: 2px dashed blue;
+      }
+    </style>
+    <script type="module" src="/build/element-internals.esm.js"></script>
+    <script nomodule src="/build/element-internals.js"></script>
+
+  </head>
+  <body>
+    <form disabled>
+      <label for="name">Normal HTML Input</label>
+      <input type="text" name="name" id="name" required/>
+      <my-checkbox name="foo" checked required label="Checked and required"></my-checkbox>
+      <fieldset disabled>
+        <legend>Disabled fields</legend>
+        <my-checkbox name="bar"></my-checkbox>
+        <label for="qux">Qux</label>
+        <input type="checkbox" name="qux" id="qux" required/>
+      </fieldset>
+      <my-checkbox name="baz" label="Disabled field outside of fieldset" disabled></my-checkbox>
+      <button type="submit">Submit</button>
+    </form>
+    <my-checkbox name="toggleFieldSet" id="toggleFieldset" label="Toggle Fieldset"></my-checkbox>
+    <my-component first="Stencil" last="'Don't call me a framework' JS"></my-component>
+    <script>
+
+      function toggleFieldset() {
+        document.querySelector('fieldset').disabled = !document.querySelector('fieldset').disabled;
+        document.querySelector('fieldset legend').textContent = document.querySelector('fieldset').disabled ? 'Disabled fields' : 'Enabled fields';
+      }
+      const toggle = document.querySelector('#toggleFieldset');
+      toggle.addEventListener('change', function(event) {
+        toggleFieldset();
+      });
+      document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(event.target);   
+        const formDataObj = Object.fromEntries(formData.entries());
+      });
+
+    </script>
+  </body>
+</html>
